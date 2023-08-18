@@ -27,30 +27,30 @@ public class WebSecurity {
 		/* Deshabilita el cors */
 		/* Clase para manejo de errores */
 		/* Como se va a manejar la sesion */
-		/**/
+		/* Poner la ruta de la api que queremos que esté publica */
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/API/V1.0/Autorizacion/tokens/obtener/**").permitAll().anyRequest().authenticated();
+				.antMatchers("/tokens/obtener/**").permitAll().anyRequest().authenticated();
 		http.authenticationProvider(this.authenticationProvider());
 		return http.build();
 	}
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(detailsService);
-		authenticationProvider.setPasswordEncoder(this.passwordEncoder());
-		return authenticationProvider;
-	}
-
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-		return configuration.getAuthenticationManager();
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(detailsService);
+		authProvider.setPasswordEncoder(this.passwordEncoder());
+		return authProvider;
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+		return authConfig.getAuthenticationManager();
 	}
 
 }
