@@ -8,6 +8,8 @@ public class UsuarioTO implements Serializable {
 
 	private String username;
 	private String password;
+	private String secret;
+	private Integer expiration;
 
 	// SET y GET
 	public String getUsername() {
@@ -24,6 +26,22 @@ public class UsuarioTO implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
+	public Integer getExpiration() {
+		return expiration;
+	}
+
+	public void setExpiration(Integer expiration) {
+		this.expiration = expiration;
 	}
 
 }

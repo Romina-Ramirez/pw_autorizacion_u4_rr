@@ -24,10 +24,6 @@ public class WebSecurity {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		/* Deshabilita el cors */
-		/* Clase para manejo de errores */
-		/* Como se va a manejar la sesion */
-		/* Poner la ruta de la api que queremos que esté publica */
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
 				.antMatchers("/tokens/obtener/**").permitAll().anyRequest().authenticated();

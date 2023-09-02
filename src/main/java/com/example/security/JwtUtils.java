@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -15,17 +14,11 @@ public class JwtUtils {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${app.jwt.secret}")
-	private String jwtSecret;
-
-	@Value("${app.jwt.expiration.ms}")
-	private Integer jwtExpiration;
-
-	public String generateJwtToken(String nombre) {
-		LOG.info("Semilla: " + jwtSecret + ", Tiempo: " + jwtExpiration);
+	public String generateJwtToken(String nombre, String secret, Integer expiration) {
+		LOG.info("Semilla: " + secret + ", Tiempo: " + expiration);
 		return Jwts.builder().setSubject(nombre).setIssuedAt(new Date())
-				.setExpiration(new Date(System.currentTimeMillis() + this.jwtExpiration))
-				.signWith(SignatureAlgorithm.HS512, this.jwtSecret).compact();
+				.setExpiration(new Date(System.currentTimeMillis() + expiration))
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 
 }
